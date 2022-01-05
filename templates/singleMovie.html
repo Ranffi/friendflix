@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="single">
+        <img src="{{show.poster}}" alt="">
+        <div>
+            <h1>{{show.title}} <span>({{show.year}})</span></h1>
+        </div>
+        <form action="{{url_for('watching', movie_id = show.id)}}" method="post">
+            <input type="checkbox" id="watch" name="current" value="watchList">
+            <label for="watch">Currently Watching</label><br>
+
+            <input type="checkbox" id="fav" name="current" value="fav">
+            <label for="fav">Add to Favorite</label><br>
+
+            <input type="checkbox" id="rec" name="current" value="rec">
+            <label for="rec">Add to Watch Later</label><br><br>
+
+            <input type="submit" value="Submit">
+          </form>
+        <div class="movie-details">
+            <div class="syn">
+                <h3>Plot</h3>
+                <p class="plot-p">{{show.plot}}</p>
+            </div>
+            <div class="info">
+                <div>
+                    <h3>Genre</h3>
+                    <h3>{{show.genre}}</h3>
+                </div>
+                <div>
+                    <h3>Imdb Rating</h3>
+                    <h3>{{show.imdbRating}}</h3>
+                </div>
+                <div>
+                    <h3>Released</h3>
+                    <h3>{{show.released}}</h3>
+                </div>
+                <div>
+                    <h3>Runtime</h3>
+                    <h3>{{show.runtime}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

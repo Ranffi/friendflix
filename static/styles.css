@@ -1,0 +1,166 @@
+html {
+    box-sizing: border-box;
+    height: 100vh;
+  }
+body {
+    background-color: #323334;
+    height: 100vh;
+    color: white;
+}
+
+
+h2{
+    padding: 40px;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    background-color: #323334;
+    color: white;
+}
+.single-friend h4 {
+  font-size: 16px;
+}
+
+.search{
+    margin-left: 40%;
+}
+
+.username {
+    display: inline-block;
+    margin-left: 2.5%;
+    margin-top: -30px;
+    color: #c65959;
+}
+
+.user {
+    /* background-image: url('https://images.unsplash.com/photo-1554310603-d39d43033735?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'); */
+    background-image: url('https://images.unsplash.com/photo-1498736297812-3a08021f206f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1179&q=80');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-top: -20px;
+    margin-bottom: 40px;
+}
+
+.singleFriend {
+    margin: 20px 20px;
+    color: black;
+}
+.singleFriend img {
+    border-radius: 25px;    
+}
+.movie {
+    margin: 10px;
+}
+.poster:hover {
+    box-shadow: 2px 2px 20px #c65959;
+    transform: translateY(-10px);
+}
+.allMovies {
+    display: flex;
+    flex-wrap: wrap;
+}
+#profileImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #512DA8;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+    margin: 20px 0;
+  }
+ 
+.allFriends {
+    background-color: #d6d8d9;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.icons i{
+    padding: 10px;
+}
+
+.sidebar {
+    background-color: #272626;
+    border-right: 1px solid #5e5c5c;
+}
+.name {
+    margin-top: 0;
+    background-color: #c65959;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+/* .search{
+    all: unset;
+    width: 100%;
+    padding: 19px 0;
+    text-align: center;
+    border-bottom: 1px solid #c65959;
+} */
+input::placeholder {
+    color: white;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items:  center;
+}
+p {
+    display: inline-block;
+    padding: 5px;
+}
+.poster {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+
+/* .single{
+    display: flex;
+} */
+
+span {
+    font-size: 20px;
+    color: grey;
+}
+
+.plot{
+    display: inline-block;
+}
+.plot-p {
+    line-height: 25px;
+}
+
+.info{
+    padding: 15px;
+}
+
+.info div {
+    margin: 10px;
+}
+.info h3 {
+    display: inline;
+    margin: 30px;
+}
+
+.movie-details{
+    display: flex;
+}
+
+.syn {
+    width: 30%;
+}
+
+.friendLink{
+  color: #c65959;
+  text-decoration-line: none;
+}
+.profile{
+    margin: 3%;
+    border-radius: 50%;
+}

@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{%block friend_img%}
+    <img src="{{friend.profile_pic}}" alt="" class="profile">
+{%endblock%}
+
+{%block friend_username%}
+    <h6 class="username">@{{friend.user_name}}</h6>
+    {%- if friend not in d -%}
+    <a href="{{url_for('add_friend', friend_id = friend.id)}}"><i class="fas fa-user-plus fs-3" style="color: black;"></i></a>
+    {%endif%}
+    {%- if friend in d -%}
+    <a href="{{url_for('unfollow', friend_id = friend.id)}}"><i class="fas fa-user-minus fs-3" style="color: black;"></i></a>
+    {%endif%}
+{%endblock%}

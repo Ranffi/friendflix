@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{%block try%}
+
+<div class="grid-container">
+
+    <div class="content">
+        <div class="user">
+            {%block friend_img%}<img src="{{current_user.profile_pic}}" alt="" class="profile">{%endblock%}
+            <br>
+            {%block friend_username%}<h6 class="username">@{{current_user.user_name}}</h6>{%endblock%}
+        </div>
+        <h2>Currently Watching</h2>
+
+        <div class="allMovies">
+            {% for show in s%}
+            <div class="movie">
+                <a href="{{url_for('form', movie_id = show.id)}}">
+                    <img src="{{show.poster}}" alt="" class="poster">
+                </a>
+                <h6>{{show.title}} <span><a href="{{url_for('remove', movie_id = show.id, type = 'current')}}"><i class="fas fa-minus-square fs-6" style="color: white;"></i></a></span></h6>
+            </div>
+            {%endfor%}
+        </div>
+
+        <h2>{{current_user.user_name}} Favs</h2>
+        <div class="allMovies">
+            {% for show in s%}
+            <div class="movie">
+                <a href="{{url_for('form', movie_id = show.id)}}">
+                    <img src="{{show.poster}}" alt="" class="poster">
+                </a>
+                <h6>{{show.title}} <span><a href="{{url_for('remove', movie_id = show.id, type = 'favs')}}"><i class="fas fa-minus-square fs-6" style="color: white;"></i></a></span></h6>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+    <div class="friends">
+        <div class="allFriends">
+            <form action="{{url_for('search_user')}}" method="post" class="container-fluid mt-2">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                        aria-describedby="basic-addon1" name="username">
+                </div>
+           </form>
+           <h3>My Friends</h3>
+           {% for item in d%}
+               <div class="singleFriend">
+                   <img src="{{item.picture}}" alt="">
+                   <a href="{{url_for('hello_friend', friend_id = item.id)}}" class ='friendLink'>
+                       <h5 style="display: inline;">@{{item.user_name}}</h5>
+                   </a>
+               </div>
+           {%endfor%}
+
+        </div>
+    </div>
+</div>
+{%endblock%}
