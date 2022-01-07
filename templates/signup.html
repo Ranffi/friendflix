@@ -1,0 +1,9 @@
+{% extends "login.html" %}
+
+{% block form %} <form action="/sign-up" method="post"> {% endblock %}
+    {% block sign_up %} <h2>Sign Up</h2> {% endblock %}
+
+    {% block link %}
+    <p>Already have an accont ?</p>
+    <a href="/login">Login in</a>
+    {% endblock %}

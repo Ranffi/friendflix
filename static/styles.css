@@ -6,6 +6,8 @@ body {
     background-color: #323334;
     height: 100vh;
     color: white;
+    font-family: 'Arial', sans-serif;
+	-webkit-font-smoothing: antialiased;
 }
 
 
@@ -17,6 +19,7 @@ h2{
     grid-template-columns: 4fr 1fr;
     background-color: #323334;
     color: white;
+    height: 100%;
 }
 .single-friend h4 {
   font-size: 16px;
@@ -33,9 +36,8 @@ h2{
     color: #c65959;
 }
 
+
 .user {
-    /* background-image: url('https://images.unsplash.com/photo-1554310603-d39d43033735?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'); */
-    background-image: url('https://images.unsplash.com/photo-1498736297812-3a08021f206f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1179&q=80');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -61,20 +63,18 @@ h2{
     display: flex;
     flex-wrap: wrap;
 }
-#profileImage {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: #512DA8;
-    font-size: 35px;
-    color: #fff;
-    text-align: center;
-    line-height: 150px;
-    margin: 20px 0;
+.profileImage {
+    width: 130px;
+    height: 130px;
   }
+
+.profileImage-friend{
+    width: 50px;
+    height: 50px;
+}
  
 .allFriends {
-    background-color: #d6d8d9;
+    background-color: #979797;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -94,13 +94,7 @@ h2{
     text-align: center;
     padding: 10px;
 }
-/* .search{
-    all: unset;
-    width: 100%;
-    padding: 19px 0;
-    text-align: center;
-    border-bottom: 1px solid #c65959;
-} */
+
 input::placeholder {
     color: white;
 }
@@ -115,14 +109,14 @@ p {
     padding: 5px;
 }
 .poster {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 300px;
+    max-height: 250px;
 }
 
 
-/* .single{
-    display: flex;
-} */
+.single{
+    margin: 50px;
+}
 
 span {
     font-size: 20px;
@@ -134,6 +128,7 @@ span {
 }
 .plot-p {
     line-height: 25px;
+    font-size: 16px;
 }
 
 .info{
@@ -143,7 +138,7 @@ span {
 .info div {
     margin: 10px;
 }
-.info h3 {
+.info h4 {
     display: inline;
     margin: 30px;
 }
@@ -163,4 +158,11 @@ span {
 .profile{
     margin: 3%;
     border-radius: 50%;
+}
+
+.allFriends a {
+    color: black;
+}
+.allFriends a:hover {
+    color: #c65959;
 }

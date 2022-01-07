@@ -2,12 +2,46 @@
 {%block try%}
 
 <div class="grid-container">
+    {%- if not friend -%}
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        style="color: black;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/edit" method="post">
+                        <label for="profilepic">Profile Picture (URL)</label>
+                        <input type="text" name="file" id="profilepic">
+
+                        <label for="banner">Banner Picture (URL)</label>
+                        <input type="text" name="banner" id="banner">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="content">
-        <div class="user">
-            {%block friend_img%}<img src="{{current_user.profile_pic}}" alt="" class="profile">{%endblock%}
+        {%block friend_banner%}<div class="user" style="background-image: url({{current_user.banner}});">{% endblock %}
+            {%block friend_img%}<img src="{{current_user.profile_pic}}" alt="" class="profile profileImage">{%endblock%}
             <br>
+            {%-if not friend-%}
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                edit profile
+            </button>
+            {% endif %}
+            {%-if friend-%}
             {%block friend_username%}<h6 class="username">@{{current_user.user_name}}</h6>{%endblock%}
+            {% endif %}
         </div>
         <h2>Currently Watching</h2>
 
@@ -17,22 +51,60 @@
                 <a href="{{url_for('form', movie_id = show.id)}}">
                     <img src="{{show.poster}}" alt="" class="poster">
                 </a>
-                <h6>{{show.title}} <span><a href="{{url_for('remove', movie_id = show.id, type = 'current')}}"><i class="fas fa-minus-square fs-6" style="color: white;"></i></a></span></h6>
+                <h6>{{show.title}}
+                    {%-if not friend-%}
+                        <span>
+                            <a href="{{url_for('remove', movie_id = show.id, type = 'current')}}">
+                                <i class="fas fa-minus-square fs-6" style="color: white;"></i>
+                            </a>
+                        </span> 
+                    {% endif %}
+                </h6>
             </div>
             {%endfor%}
         </div>
 
-        <h2>{{current_user.user_name}} Favs</h2>
+        {%block friend_name%}<h2>My Favorites</h2>{%endblock%}
         <div class="allMovies">
-            {% for show in s%}
+            {% for show in favs%}
             <div class="movie">
                 <a href="{{url_for('form', movie_id = show.id)}}">
                     <img src="{{show.poster}}" alt="" class="poster">
                 </a>
-                <h6>{{show.title}} <span><a href="{{url_for('remove', movie_id = show.id, type = 'favs')}}"><i class="fas fa-minus-square fs-6" style="color: white;"></i></a></span></h6>
+                <h6>{{show.title}}
+                    {%-if not friend-%}
+                        <span>
+                            <a href="{{url_for('remove', movie_id = show.id, type = 'favs')}}">
+                                <i class="fas fa-minus-square fs-6" style="color: white;"></i>
+                            </a>
+                        </span> 
+                    {% endif %}
+                </h6>
             </div>
             {%endfor%}
         </div>
+
+        <h2>Watch List</h2>
+
+        <div class="allMovies">
+            {% for show in watchLater%}
+            <div class="movie">
+                <a href="{{url_for('form', movie_id = show.id)}}">
+                    <img src="{{show.poster}}" alt="" class="poster">
+                </a>
+                <h6>{{show.title}}
+                    {%-if not friend-%}
+                        <span>
+                            <a href="{{url_for('remove', movie_id = show.id, type = 'later')}}">
+                                <i class="fas fa-minus-square fs-6" style="color: white;"></i>
+                            </a>
+                        </span> 
+                    {% endif %}
+                </h6>
+            </div>
+            {%endfor%}
+        </div>
+
     </div>
     <div class="friends">
         <div class="allFriends">
@@ -42,16 +114,16 @@
                     <input type="text" class="form-control" placeholder="Username" aria-label="Username"
                         aria-describedby="basic-addon1" name="username">
                 </div>
-           </form>
-           <h3>My Friends</h3>
-           {% for item in d%}
-               <div class="singleFriend">
-                   <img src="{{item.picture}}" alt="">
-                   <a href="{{url_for('hello_friend', friend_id = item.id)}}" class ='friendLink'>
-                       <h5 style="display: inline;">@{{item.user_name}}</h5>
-                   </a>
-               </div>
-           {%endfor%}
+            </form>
+            <h3 style="text-align: center; margin-top: 10px;">My Friends</h3>
+            {% for friend in d%}
+            <div class="singleFriend">
+                <img src="{{friend.thumbnail}}" alt="" class="profileImage-friend">
+                <a href="{{url_for('hello_friend', friend_id = friend.id)}}" class='friendLink'>
+                    <h5 style="display: inline;">@{{friend.user_name}}</h5>
+                </a>
+            </div>
+            {%endfor%}
 
         </div>
     </div>
