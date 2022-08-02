@@ -14,11 +14,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-@login_manager.user_loader
-def load_user(user_id):
-    return models.User.query.get(int(user_id))
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return models.User.query.get(int(user_id))
 
 
 
@@ -75,10 +75,7 @@ def seed():
 
 @app.route("/")
 def hello_world():
-    user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
-    friends = user.follow
-    users = db.session.query(models.User).all()
-    return render_template('index.html', d=friends, s=current_user.shows, favs = current_user.favorite, watchLater = current_user.watch_later)
+    return redirect(url_for('login'))
 
 
 @app.route("/edit", methods=["GET", "POST"])
