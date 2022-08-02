@@ -1,17 +1,22 @@
 from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask.helpers import url_for
 import requests
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, login_required, logout_user, LoginManager
 import models
-import config 
+import config
+from models import db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.app_secret
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friendflix.sqlite"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+
+db.init_app(app) 
+
+
+with app.app_context():
+    db.create_all()
 
 
 # login_manager = LoginManager()

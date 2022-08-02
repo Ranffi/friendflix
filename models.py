@@ -1,5 +1,7 @@
-from server import db 
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 watched = db.Table('watched',
@@ -51,4 +53,4 @@ class Entertainment(db.Model):
 
 
 
-db.create_all()
+# db.create_all()
