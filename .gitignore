@@ -1,4 +1,4 @@
 venv
-config.py
+.env
 friendflix.sqlite
 __pycache__

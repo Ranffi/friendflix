@@ -1,29 +1,33 @@
+import os
 from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask.helpers import url_for
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, login_required, logout_user, LoginManager
 import models
-import config
 from models import db
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config.app_secret
+app.config['SECRET_KEY'] = os.environ.get('app_secret')
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friendflix.sqlite"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app) 
 
 
+
 with app.app_context():
     db.create_all()
 
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return models.User.query.get(int(user_id))
+login_manager = LoginManager()
+login_manager.init_app(app)
+@login_manager.user_loader
+def load_user(user_id):
+    return models.User.query.get(int(user_id))
 
 
 
@@ -43,7 +47,7 @@ def seed():
     ]
 
     for i in movies:
-        movie_res  = requests.get(url=f'{config.movie_api}/?apikey={config.api_key}&t={i}')
+        movie_res  = requests.get(url=f'{os.environ.get("movie_api")}/?apikey={os.environ.get("api_key")}&t={i}')
         movie_data = movie_res.json()
 
         show = models.Entertainment(
@@ -78,9 +82,17 @@ def seed():
     db.session.commit()
         
 
+
 @app.route("/")
-def hello_world():
+def landing():
     return redirect(url_for('login'))
+
+@app.route("/home")
+def hello_world():
+    user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
+    friends = user.follow
+    users = db.session.query(models.User).all()
+    return render_template('index.html', d=friends, s=current_user.shows, favs = current_user.favorite, watchLater = current_user.watch_later)
 
 
 @app.route("/edit", methods=["GET", "POST"])
@@ -196,7 +208,7 @@ def search():
     showLookingFor = db.session.query(models.Entertainment).filter_by(title = title).first()
 
     if(showLookingFor == None):
-        movie_res  = requests.get(url=f'{config.movie_api}/?apikey={config.api_key}&t={title}')
+        movie_res  = requests.get(url=f'{os.environ.get("movie_api")}/?apikey={os.environ.get("api_key")}&t={title}')
         movie_data = movie_res.json()
 
         if movie_data['Response'] == 'False':
