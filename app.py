@@ -256,5 +256,6 @@ def watching(movie_id):
     return redirect(url_for('hello_world'))
 
 if __name__ == '__main__':
+    port = os.environ.get("PORT", 5000)
     # seed()
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0", port=port)
