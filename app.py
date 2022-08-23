@@ -117,15 +117,12 @@ def edit():
         db.session.commit()
     return redirect(url_for('hello_world'))
 
-@app.route("/friend<int:friend_id>", methods=["GET","POST"])
+@app.route("/friend<int:friend_id>", methods=["GET"])
 def hello_friend(friend_id):
-    name = request.form.get("username", False)
     user =  db.session.query(models.User).filter_by(id = friend_id).first()
-    friends = user.follow
-    users = db.session.query(models.User).all()
     return render_template('friend.html', d=current_user.follow, s=user.shows, favs = user.favorite, watchLater = user.watch_later, friend=user)
 
-@app.route("/search/user", methods=["GET","POST"])
+@app.route("/search/user", methods=["POST"])
 def search_user():
     name = request.form.get("username", False)
     user =  db.session.query(models.User).filter_by(user_name = name).first()
