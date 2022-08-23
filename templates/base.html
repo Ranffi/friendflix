@@ -17,6 +17,7 @@
           <a class="navbar-brand" href="/home">FRIENDFLIX</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="d-flex me-auto search" method="post" action="/search">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="title" name="title">
             </form>
             <ul class="navbar-nav">

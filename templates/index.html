@@ -17,9 +17,11 @@
                     <form action="/edit" method="post">
                         <label for="profilepic">Profile Picture (URL)</label>
                         <input type="text" name="file" id="profilepic">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
                         <label for="banner">Banner Picture (URL)</label>
                         <input type="text" name="banner" id="banner">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -113,6 +115,7 @@
                     <span class="input-group-text" id="basic-addon1">@</span>
                     <input type="text" class="form-control" placeholder="Username" aria-label="Username"
                         aria-describedby="basic-addon1" name="username">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 </div>
             </form>
             <h3 style="text-align: center; margin-top: 10px;">My Friends</h3>
