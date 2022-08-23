@@ -104,7 +104,7 @@ def hello_world():
     return render_template('index.html', d=friends, s=current_user.shows, favs = current_user.favorite, watchLater = current_user.watch_later)
 
 
-@app.route("/edit", methods=["GET", "POST"])
+@app.route("/edit", methods=["POST"])
 def edit():
     file= request.form.get("file", False)
     banner= request.form.get("banner", False)
@@ -117,7 +117,7 @@ def edit():
         db.session.commit()
     return redirect(url_for('hello_world'))
 
-@app.route("/friend<int:friend_id>", methods=["GET", "POST"])
+@app.route("/friend<int:friend_id>", methods=["GET","POST"])
 def hello_friend(friend_id):
     name = request.form.get("username", False)
     user =  db.session.query(models.User).filter_by(id = friend_id).first()
@@ -125,7 +125,7 @@ def hello_friend(friend_id):
     users = db.session.query(models.User).all()
     return render_template('friend.html', d=current_user.follow, s=user.shows, favs = user.favorite, watchLater = user.watch_later, friend=user)
 
-@app.route("/search/user", methods=["GET", "POST"])
+@app.route("/search/user", methods=["GET","POST"])
 def search_user():
     name = request.form.get("username", False)
     user =  db.session.query(models.User).filter_by(user_name = name).first()
@@ -134,7 +134,7 @@ def search_user():
     return redirect(url_for('hello_friend', friend_id = user.id))
 
 
-@app.route("/add_friend<int:friend_id>", methods=["GET", "POST"])
+@app.route("/add_friend<int:friend_id>", methods=["GET"])
 def add_friend(friend_id):
     user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
     friend =  db.session.query(models.User).filter_by(id = friend_id).first()
@@ -142,7 +142,7 @@ def add_friend(friend_id):
     db.session.commit()
     return redirect(url_for('hello_friend', friend_id = friend.id))
 
-@app.route("/unfollow<int:friend_id>", methods=["GET", "POST"])
+@app.route("/unfollow<int:friend_id>", methods=["GET"])
 def unfollow(friend_id):
     user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
     friend =  db.session.query(models.User).filter_by(id = friend_id).first()
@@ -151,7 +151,7 @@ def unfollow(friend_id):
     return redirect(url_for('hello_friend', friend_id = friend.id))
 
 
-@app.route("/remove/<int:movie_id>/<type>", methods=["GET", "POST"])
+@app.route("/remove/<int:movie_id>/<type>", methods=["GET"])
 def remove(movie_id, type):
     user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
     movie =  db.session.query(models.Entertainment).filter_by(id = movie_id).first()
@@ -191,7 +191,7 @@ def receive_data():
 
 
 
-@app.route('/Login', methods=["GET", "POST"])
+@app.route('/Login', methods=["POST"])
 def Login():
     userName = request.form["username"]
     password = request.form["password"]
@@ -201,7 +201,7 @@ def Login():
         return redirect(url_for('hello_world'))
     return render_template('login.html')
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/login')
 def login():
     return render_template('login.html')
 
