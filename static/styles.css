@@ -79,7 +79,7 @@ h2{
     flex-direction: column;
     height: 100%;
 }
-.icons i{
+.icons span{
     padding: 10px;
 }
 
@@ -118,7 +118,7 @@ p {
     margin: 50px;
 }
 
-span {
+.btn-remove {
     font-size: 20px;
     color: grey;
 }

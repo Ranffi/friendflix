@@ -55,9 +55,9 @@
                 </a>
                 <h6>{{show.title}}
                     {%-if not friend-%}
-                        <span>
+                        <span class="btn-remove">
                             <a href="{{url_for('remove', movie_id = show.id, type = 'current')}}">
-                                <i class="fas fa-minus-square fs-6" style="color: white;"></i>
+                                <span class="fas fa-minus-square fs-6" style="color: white;"></span>
                             </a>
                         </span> 
                     {% endif %}
@@ -75,9 +75,9 @@
                 </a>
                 <h6>{{show.title}}
                     {%-if not friend-%}
-                        <span>
+                        <span class="btn-remove">
                             <a href="{{url_for('remove', movie_id = show.id, type = 'favs')}}">
-                                <i class="fas fa-minus-square fs-6" style="color: white;"></i>
+                                <span class="fas fa-minus-square fs-6" style="color: white;"></span>
                             </a>
                         </span> 
                     {% endif %}
@@ -98,7 +98,7 @@
                     {%-if not friend-%}
                         <span>
                             <a href="{{url_for('remove', movie_id = show.id, type = 'later')}}">
-                                <i class="fas fa-minus-square fs-6" style="color: white;"></i>
+                                <span class="fas fa-minus-square fs-6" style="color: white;"></span>
                             </a>
                         </span> 
                     {% endif %}

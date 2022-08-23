@@ -10,12 +10,12 @@
     <h6 class="username" style="color: white; margin-right: 10px;">@{{friend.user_name}}</h6>
     {%- if friend not in d -%}
     <button type="button" class="btn btn-secondary">
-        <a href="{{url_for('add_friend', friend_id = friend.id)}}"><i class="fas fa-user-plus fs-6" style="color: white;"></i></a>
+        <a href="{{url_for('add_friend', friend_id = friend.id)}}"><span class="fas fa-user-plus fs-6" style="color: white;"></span></a>
     </button>
     {%endif%}
     {%- if friend in d -%}
     <button type="button" class="btn btn-secondary">
-    <a href="{{url_for('unfollow', friend_id = friend.id)}}"><i class="fas fa-user-minus fs-6" style="color: white;"></i></a>
+    <a href="{{url_for('unfollow', friend_id = friend.id)}}"><span class="fas fa-user-minus fs-6" style="color: white;"></span></a>
 </button>
     {%endif%}
 {%endblock%}
