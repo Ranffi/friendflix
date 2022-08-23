@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, jsonify, flash
 from flask.helpers import url_for
+from flask_wtf.csrf import CSRFProtect
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, login_required, logout_user, LoginManager
@@ -12,6 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('app_secret')
+csrf = CSRFProtect(app)
 try:
     prodURI = os.getenv('DATABASE_URL')
     prodURI = prodURI.replace("postgres://", "postgresql://")
