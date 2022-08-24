@@ -14,13 +14,13 @@ jobs:
           with:
             fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
         - name: SonarCloud Scan
-        - uses: SonarSource/sonarcloud-github-action@master
+          uses: SonarSource/sonarcloud-github-action@master
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
         - name: Deploy Docker image to Heroku
-        - uses: actions/checkout@v2
+          uses: actions/checkout@v2
         - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
           with:
             heroku_api_key: ${{secrets.HEROKU_API_KEY}}
