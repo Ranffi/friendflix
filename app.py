@@ -8,6 +8,7 @@ from flask_login import login_user, current_user, login_required, logout_user, L
 import models
 from models import db
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
