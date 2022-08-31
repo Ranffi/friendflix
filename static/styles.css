@@ -166,3 +166,16 @@ p {
 .allFriends a:hover {
     color: #c65959;
 }
+
+.follows:hover {
+    cursor: pointer;
+}
+.follows{
+    font-size: 1.3rem;
+}
+.hide{
+    display: none;
+}
+.following {
+    color: #c65959;
+}

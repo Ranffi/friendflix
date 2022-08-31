@@ -118,9 +118,22 @@
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 </div>
             </form>
-            <h3 style="text-align: center; margin-top: 10px;">My Friends</h3>
+            <div style="text-align: center; margin-top: 10px;">
+                <span class="follows following">Following</span>
+                <span>|</span>
+                <span class="follows followers">Followers</span>
+            </div>
             {% for friend in d%}
-            <div class="singleFriend">
+            <div class="singleFriend user_follows">
+                <img src="{{friend.thumbnail}}" alt="" class="profileImage-friend">
+                <a href="{{url_for('hello_friend', friend_id = friend.id)}}" class='friendLink'>
+                    <h5 style="display: inline;">@{{friend.user_name}}</h5>
+                </a>
+            </div>
+            {%endfor%}
+
+            {% for friend in following%}
+            <div class="singleFriend hide user_following">
                 <img src="{{friend.thumbnail}}" alt="" class="profileImage-friend">
                 <a href="{{url_for('hello_friend', friend_id = friend.id)}}" class='friendLink'>
                     <h5 style="display: inline;">@{{friend.user_name}}</h5>
@@ -131,4 +144,5 @@
         </div>
     </div>
 </div>
+<script src="{{url_for('static', filename='follows.js')}}"></script>
 {%endblock%}

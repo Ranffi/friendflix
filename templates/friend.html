@@ -8,12 +8,12 @@
 
 {%block friend_username%}
     <h6 class="username" style="color: white; margin-right: 10px;">@{{friend.user_name}}</h6>
-    {%- if friend not in d -%}
+    {%- if friend not in current_user.follow  -%}
     <button type="button" class="btn btn-secondary">
         <a href="{{url_for('add_friend', friend_id = friend.id)}}"><span class="fas fa-user-plus fs-6" style="color: white;"></span></a>
     </button>
     {%endif%}
-    {%- if friend in d -%}
+    {%- if friend in current_user.follow -%}
     <button type="button" class="btn btn-secondary">
     <a href="{{url_for('unfollow', friend_id = friend.id)}}"><span class="fas fa-user-minus fs-6" style="color: white;"></span></a>
 </button>
@@ -21,3 +21,4 @@
 {%endblock%}
 
 {%block friend_name%}<h2>{{friend.user_name}}'s Favs</h2>{%endblock%}
+<script src="{{url_for('static', filename='follows.js')}}"></script>

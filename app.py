@@ -102,7 +102,11 @@ def hello_world():
     user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
     friends = user.follow
     users = db.session.query(models.User).all()
-    return render_template('index.html', d=friends, s=current_user.shows, favs = current_user.favorite, watchLater = current_user.watch_later)
+    followers = []
+    for person in users:
+        if current_user in person.follow:
+            followers.append(person)
+    return render_template('index.html', d=friends, following = followers, s=current_user.shows, favs = current_user.favorite, watchLater = current_user.watch_later)
 
 
 @app.route("/edit", methods=["POST"])
@@ -122,7 +126,13 @@ def edit():
 @app.route("/friend<int:friend_id>", methods=["GET"])
 def hello_friend(friend_id):
     user =  db.session.query(models.User).filter_by(id = friend_id).first()
-    return render_template('friend.html', d=current_user.follow, s=user.shows, favs = user.favorite, watchLater = user.watch_later, friend=user)
+    friends = user.follow
+    users = db.session.query(models.User).all()
+    followers = []
+    for person in users:
+        if user in person.follow:
+            followers.append(person)
+    return render_template('friend.html', d=friends, following = followers, s=user.shows, favs = user.favorite, watchLater = user.watch_later, friend=user)
 
 @app.route("/search/user", methods=["POST"])
 def search_user():
