@@ -112,6 +112,7 @@ def edit():
     user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
     if file:
         user.profile_pic = file
+        user.thumbnail = file
     if banner:
         user.banner = banner
     if file or banner:
