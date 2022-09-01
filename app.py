@@ -177,11 +177,11 @@ def remove(movie_id, type):
 
 @app.route("/single/<int:movie_id>")
 def form(movie_id):
-    showOne = db.session.query(models.Entertainment).get(movie_id)
-    return render_template('singleMovie.html' , show=showOne)
+    show_one = db.session.query(models.Entertainment).get(movie_id)
+    return render_template('singleMovie.html' , show=show_one)
 
 @app.route('/signUp')
-def signUp():
+def sign_up():
     return render_template('signup.html')
 
 @app.route("/sign-up", methods=["POST"])
@@ -201,10 +201,10 @@ def receive_data():
 
 
 @app.route('/Login', methods=["POST"])
-def Login():
-    userName = request.form["username"]
-    password = request.form["password"]
-    user = db.session.query(models.User).filter_by(user_name = userName).first()
+def login_form():
+    user_name = request.form["username"]
+    # password = request.form["password"]
+    user = db.session.query(models.User).filter_by(user_name = user_name).first()
     if user:
         login_user(user)
         return redirect(url_for('hello_world'))
@@ -223,16 +223,16 @@ def signout():
 def search():
 
     title = request.form["title"]
-    showLookingFor = db.session.query(models.Entertainment).filter_by(title = title).first()
+    show_looking_for = db.session.query(models.Entertainment).filter_by(title = title).first()
 
-    if(showLookingFor == None):
+    if(show_looking_for == None):
         movie_res  = requests.get(url=f'{os.environ.get("movie_api")}/?apikey={os.environ.get("api_key")}&t={title}')
         movie_data = movie_res.json()
 
         if movie_data['Response'] == 'False':
             return redirect(url_for('hello_world'))
         else:
-            showLookingFor = models.Entertainment(
+            show_looking_for = models.Entertainment(
                 title = movie_data['Title'],
                 year = movie_data['Year'],
                 released = movie_data['Released'],
@@ -247,10 +247,10 @@ def search():
                 awards = movie_data['Awards'],
                 actors = movie_data['Actors'],
             )
-            db.session.add(showLookingFor)
+            db.session.add(show_looking_for)
             db.session.commit()
     
-    return render_template('singleMovie.html' , show=showLookingFor)
+    return render_template('singleMovie.html' , show=show_looking_for)
 
 @app.route('/watching/<int:movie_id>', methods=['POST'])
 def watching(movie_id):
