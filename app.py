@@ -15,12 +15,14 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('app_secret')
 csrf = CSRFProtect(app)
-try:
+
+env = os.environ.get("ENV")
+if env == 'prod':
     prodURI = os.getenv('DATABASE_URL')
     prodURI = prodURI.replace("postgres://", "postgresql://")
     app.config['SQLALCHEMY_DATABASE_URI'] = prodURI
 
-except:
+else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///friendflix.sqlite"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -256,13 +258,13 @@ def search():
 def watching(movie_id):
     arr = request.form.getlist('current')
     user =  db.session.query(models.User).filter_by(user_name = current_user.user_name).first()
-    showLookingFor = db.session.query(models.Entertainment).filter_by(id = movie_id).first()
+    show_looking_for = db.session.query(models.Entertainment).filter_by(id = movie_id).first()
     if 'watchList' in arr:
-        user.shows.append(showLookingFor)
+        user.shows.append(show_looking_for)
     if 'fav' in arr:
-            user.favorite.append(showLookingFor)
+            user.favorite.append(show_looking_for)
     if 'rec' in arr:
-            user.watch_later.append(showLookingFor)
+            user.watch_later.append(show_looking_for)
     db.session.commit()
     return redirect(url_for('hello_world'))
 
