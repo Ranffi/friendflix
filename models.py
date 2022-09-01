@@ -2,23 +2,24 @@ from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
+user_foreign_Key = 'user.id'
+entertainment_foreign_key = 'entertainment.id'
 
 watched = db.Table('watched',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('entertainment_id', db.Integer, db.ForeignKey('entertainment.id'), primary_key=True)
+    db.Column('user_id', db.Integer, db.ForeignKey(user_foreign_Key), primary_key=True),
+    db.Column('entertainment_id', db.Integer, db.ForeignKey(entertainment_foreign_key), primary_key=True)
 )
 fav = db.Table('fav',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('entertainment_id', db.Integer, db.ForeignKey('entertainment.id'), primary_key=True)
+    db.Column('user_id', db.Integer, db.ForeignKey(user_foreign_Key), primary_key=True),
+    db.Column('entertainment_id', db.Integer, db.ForeignKey(entertainment_foreign_key), primary_key=True)
 )
 later = db.Table('later',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey(user_foreign_Key), primary_key=True),
     db.Column('entertainment_id', db.Integer, db.ForeignKey('entertainment.id'), primary_key=True)
 )
 friends = db.Table('friends',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('friend_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    db.Column('user_id', db.Integer, db.ForeignKey(user_foreign_Key), primary_key=True),
+    db.Column('friend_id', db.Integer, db.ForeignKey(user_foreign_Key), primary_key=True)
 )  
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
