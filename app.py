@@ -194,7 +194,7 @@ def signout():
 @app.route("/search", methods=["POST"])
 def search():
 
-    title = request.form["title"]
+    title = request.form["title"].title()
     show_looking_for = db.session.query(models.Entertainment).filter_by(title = title).first()
 
     if(show_looking_for == None):
