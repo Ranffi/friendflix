@@ -2,3 +2,4 @@ venv
 .env
 friendflix.sqlite
 __pycache__
+seed.py

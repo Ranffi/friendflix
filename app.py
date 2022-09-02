@@ -44,57 +44,6 @@ def load_user(user_id):
 
 
 
-def seed():
-    movies = ['westworld', 'breaking bad', 'altered carbon', 'vikings', 'narcos',]
-    banners = [
-        'https://images.unsplash.com/photo-1560972550-aba3456b5564?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-        'https://images.unsplash.com/photo-1528360983277-13d401cdc186?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-        'https://images.unsplash.com/photo-1636277073302-eee456f208a1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2369&q=80',
-        'https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-        'https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2373&q=80',
-        'https://images.unsplash.com/photo-1542977466-bbacf83cb0b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2376&q=80',
-        'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
-        'https://images.unsplash.com/photo-1627716129571-05179673b885?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80'
-
-    ]
-
-    for i in movies:
-        movie_res  = requests.get(url=f'{os.environ.get("movie_api")}/?apikey={os.environ.get("api_key")}&t={i}')
-        movie_data = movie_res.json()
-
-        show = models.Entertainment(
-            title = movie_data['Title'],
-            year = movie_data['Year'],
-            released = movie_data['Released'],
-            runtime = movie_data['Runtime'],
-            rated = movie_data['Rated'],
-            director = movie_data['Director'],
-            awards = movie_data['Awards'],
-            actors = movie_data['Actors'],
-            genre = movie_data['Genre'],
-            plot = movie_data['Plot'],
-            poster = movie_data['Poster'],
-            imdbRating = movie_data['imdbRating'],
-            type = movie_data['Type']
-        )
-        db.session.add(show)
-    user_res = requests.get(url='https://randomuser.me/api/?results=8')
-    user_data = user_res.json()
-    i = 0
-    for person in user_data['results']:
-        user = models.User(
-            user_name = person['login']['username'],
-            thumbnail = person['picture']['thumbnail'],
-            banner = banners[i],
-            profile_pic = person['picture']['large'],
-            password = person['login']['password']
-        )
-        db.session.add(user)
-        i += 1
-    db.session.commit()
-        
-
-
 @app.route("/")
 def landing():
     return redirect(url_for('login'))
@@ -189,8 +138,24 @@ def sign_up():
 @app.route("/sign-up", methods=["POST"])
 def receive_data():
     name = request.form["username"]
+    password = request.form.get('password')
+    if name == '' or password == '':
+        flash('Please enter both a username and password')
+        return render_template('signup.html')
+
+    user_exist = db.session.query(models.User).filter_by(user_name = name).first()
+    if user_exist:
+        flash('That username is already taken. Try Again.')
+        return render_template('signup.html')
+
+    hash_and_salted_password = generate_password_hash(
+            password,
+            method='pbkdf2:sha256',
+            salt_length=8
+        )
     user = models.User(
-        user_name=name, 
+        user_name=name,
+        password = hash_and_salted_password, 
         profile_pic= 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg',
         banner = 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80',
         thumbnail = 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80'
@@ -205,11 +170,16 @@ def receive_data():
 @app.route('/Login', methods=["POST"])
 def login_form():
     user_name = request.form["username"]
-    # password = request.form["password"]
+    password = request.form["password"]
     user = db.session.query(models.User).filter_by(user_name = user_name).first()
-    if user:
-        login_user(user)
-        return redirect(url_for('hello_world'))
+    if user and password != '':
+        if check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('hello_world'))
+        else:
+            flash('Invalid username or password.  Try Again')
+    else:
+        flash('Invalid username or password.  Try Again')
     return render_template('login.html')
 
 @app.route('/login')
@@ -270,5 +240,4 @@ def watching(movie_id):
 
 if __name__ == '__main__':
     port = os.environ.get("PORT", 5000)
-    # seed()
     app.run(debug=False, host="0.0.0.0", port=port)
