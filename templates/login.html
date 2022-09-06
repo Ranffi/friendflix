@@ -29,7 +29,7 @@
             {% endwith %}
             <div class="formm">
                 {% block form %} <form action="/Login" method="post"> {% endblock %}
-                    {% block sign_up %} <h2>Sign In</h2> {% endblock %}
+                    {% block sign_up %} <h2>Login</h2> {% endblock %}
                     <div class="info">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <input class="email" type="text" placeholder="Username" name="username"> <br>
