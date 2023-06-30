@@ -19,7 +19,6 @@ csrf = CSRFProtect(app)
 env = os.environ.get("ENV")
 if env == 'prod':
     prodURI = os.getenv('DATABASE_URL')
-    prodURI = prodURI.replace("postgres://", "postgresql://")
     app.config['SQLALCHEMY_DATABASE_URI'] = prodURI
 
 else:
